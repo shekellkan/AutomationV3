@@ -2,19 +2,19 @@ package runner;
 
 import common.CommonMethods;
 import cucumber.api.CucumberOptions;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
 import framework.DriverManager;
+import gherkin.formatter.model.Feature;
 import org.apache.log4j.Logger;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
-import ui.PageTransporter;
 
 @CucumberOptions(
         plugin = {"pretty", "html:target/cucumber", "json:target/cucumber.json"},
         glue={"steps"},
-        features = {"src/test/resources/features"},
+        features = {"src/test/resource/features"},
         monochrome = true)
 
 public class RunCukesTest extends AbstractTestNGCucumberTests {
@@ -22,34 +22,32 @@ public class RunCukesTest extends AbstractTestNGCucumberTests {
     private static Logger log = Logger.getLogger("RunCukesTest");
 
     @BeforeTest
-    public void beforeExecution(){
-        try{
-            PageTransporter.getInstance().navigateToLoginPage();
-        } catch(Exception e){
-        }
-    }
-
-    @BeforeMethod
-    public void beforeFeatureExecution(){
-        try{
-            CommonMethods.logIn("miguel.terceros@fundacion-jala.org", "morfeo3730");
-        } catch(Exception e){
+    public void beforeExecution() {
+        try {
+            CommonMethods.logIn();
+        }catch (Exception e) {
+            log.error("Unable to login before execution");
         }
     }
 
     @AfterTest
     public void afterExecution() {
         try {
-            DriverManager.getInstance().quitDriver();
+            CommonMethods.logOut();
         } catch (Exception e) {
+            log.error("Unable to logout after execution", e);
+        } finally {
+            DriverManager.getInstance().quitDriver();
         }
     }
 
-    @AfterMethod
-    public void afterFeatureExecution(){
-        try {
-            CommonMethods.logOut();
-        } catch (Exception e) {
-        }
+    @Before
+    public void beforeScenario(Feature feature) {
+        System.out.println("FEATURE BEFORE: "+feature.getName());
+    }
+
+    @After
+    public void afterScenario(Feature feature){
+        System.out.println("FEATURE AFTER: " + feature.getName());
     }
 }

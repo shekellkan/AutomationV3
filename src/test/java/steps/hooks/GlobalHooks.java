@@ -1,19 +1,23 @@
 package steps.hooks;
 
-import cucumber.api.java.Before;
-import ui.PageTransporter;
+import cucumber.api.Scenario;
+import framework.DriverManager;
+import org.junit.After;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
-/**
- * Created by silvia valencia on 11/10/2015.
- */
+
 public class GlobalHooks {
-    private static boolean started = false;
-
-    @Before(order=1)
-    public void setUp() throws Exception {
-        if(!started) {
-            PageTransporter.getInstance().navigateToLoginPage();
-            started = true;
+    @After
+    public void embedScreenshot(Scenario scenario) {
+        if(scenario.isFailed()) {
+            try {
+                byte[] screenshot = ((TakesScreenshot) DriverManager.getInstance().getWebDriver())
+                        .getScreenshotAs(OutputType.BYTES);
+                scenario.embed(screenshot, "image/png");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
