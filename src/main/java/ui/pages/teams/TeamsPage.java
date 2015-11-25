@@ -20,6 +20,7 @@ import ui.pages.teams.MenuTeams.SettingsMenuPage;
  */
 public class TeamsPage extends BasePageObject {
     private TopMenuPage topMenuPage;
+    private SettingsMenuPage settingsMenuPage;
 
     @FindBy(xpath = "//h1[@class='u-inline']")
     WebElement titleTeam;
@@ -75,5 +76,10 @@ public class TeamsPage extends BasePageObject {
     /************ HOME **********/
     public MainPage goToMainPage(){
         return topMenuPage.goToMainPage();
+    }
+
+    public MainPage deleteTeam(){
+        settingsMenuPage = clickMenuSetting();
+        return settingsMenuPage.deleteTeam();
     }
 }

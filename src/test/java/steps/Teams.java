@@ -1,7 +1,5 @@
 package steps;
 
-import common.Utils;
-import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -9,8 +7,10 @@ import cucumber.api.java.en.Then;
 
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 import ui.pages.MainPage;
+import ui.pages.teams.MenuTeams.MembersMenuPage;
 import ui.pages.teams.TeamsPage;
 import ui.pages.TopMenuPage;
 import ui.pages.teams.AddTeamPage;
@@ -27,6 +27,7 @@ public class Teams {
     private MainPage mainPage = new MainPage();
     private TeamsPage teamPage;
     private AddTeamPage addNewTeam;
+    private MembersMenuPage membersMenuPage;
     public String newMember;
     /*********** CREATE TEAM ************/
     @Given("^I go to Create Team page$")
@@ -43,14 +44,12 @@ public class Teams {
     public void new_Team_Created(String name){
         assertTrue(teamPage.isNameTeamsDisplayed());
         assertEquals(name, teamPage.nameTeam());
-
-        teamPage.deleteTeam();
     }
 
     /**************** DELETE *************/
     @Given("^I create a team \"([^\"]*)\" with description \"([^\"]*)\"$")
     public void deleted_a_team(String nameTeam, String description){
-        mainPage.clickNewTeam();
+        addNewTeam = mainPage.clickNewTeam();
         teamPage = addNewTeam.createNewTeams(nameTeam, description);
     }
 
@@ -61,30 +60,30 @@ public class Teams {
 
     @Then("^The team \"([^\"]*)\" is deleted$")
     public void teams_is_deleted(String teamDeleted){
-        //Assert.assertFalse(mainPage.isTeamPresent(teamDeleted));
+        assertFalse(mainPage.isTeamPresent(teamDeleted));
     }
 
     /**************** ADD MEMBERS ****************/
     @Given("^I add new members in team \"([^\"]*)\" with description \"([^\"]*)\"$")
     public void new_members_team(String nameTeam, String description){
-        mainPage.clickNewTeam();
+        addNewTeam = mainPage.clickNewTeam();
         teamPage = addNewTeam.createNewTeams(nameTeam, description);
     }
 
     @And("^I navigate until to menu Members$")
     public void navigate_menu_members(){
-        teamPage.clickMenuMembers();
+        membersMenuPage = teamPage.clickMenuMembers();
     }
 
     @And("^I add to member \"([^\"]*)\" with the email \"([^\"]*)\"$")
     public void add_new_member(String nameMember, String email){
-        teamPage.addMemberInTeam(nameMember, email);
-        newMember = teamPage.isNewMemberTeamDisplayed(nameMember);
+        membersMenuPage.addMemberInTeam(nameMember, email);
+        newMember = membersMenuPage.isNewMemberTeamDisplayed(nameMember);
     }
 
     @Then("^The  member \"([^\"]*)\" is added in the team$")
     public void new_member_is_added(String nameMember){
-        Assert.assertEquals(nameMember, newMember);
+        assertEquals(nameMember, newMember);
     }
 
     /**************** AFTER ********************/
