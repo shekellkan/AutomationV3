@@ -46,6 +46,14 @@ public class DriverManager {
     }
 
     public void quitDriver() {
-        driver.quit();
+        try
+        {
+            driver.quit();
+        }
+        catch (Exception e)
+        {
+            //Logger.getLogger(getClass()).error("Unable to quit the webdriver" , e);
+        }
+        driver = null;
     }
 }

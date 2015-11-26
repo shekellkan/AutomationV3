@@ -58,13 +58,13 @@ public class Login {
         assertTrue(loginError.getErrorMessage());
     }
 
-    /**************** AFTER ****************/
-    @After(value = "@Login", order = 999)
-    public void afterTeamScenario() {
-        if(mainPage != null){
-            topMenu = new TopMenuPage();
-            topMenu.logout();
-            //DriverManager.getInstance().quitDriver();
-        }
-    }
+//    /**************** AFTER ****************/
+//    @After(value = "@Login", order = 999)
+//    public void afterTeamScenario() {
+//        if(mainPage != null){
+//            topMenu = new TopMenuPage();
+//            topMenu.logout();
+//            //DriverManager.getInstance().quitDriver();
+//        }
+//    }
 }

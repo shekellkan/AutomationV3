@@ -5,6 +5,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
 import ui.pages.AddBoardPage;
+import ui.pages.projects.AddProjectPage;
 
 /**
  * Created by MiguelTerceros on 11/24/2015.
@@ -22,8 +23,12 @@ public class BoardsMenuPage extends BasePageObject {
         wait.until(ExpectedConditions.visibilityOf(createBoardBtn));
     }
 
-    public AddBoardPage clickCreateNewBoard(){
+    public AddProjectPage clickCreateNewBoard(){
         createBoardBtn.click();
-        return new AddBoardPage();
+        return new AddProjectPage();
+    }
+
+    public boolean isCreateBoardBtnDisplayed(){
+        return createBoardBtn.isDisplayed();
     }
 }

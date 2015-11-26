@@ -10,6 +10,9 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
 import ui.pages.MainPage;
+import ui.pages.projects.AddProjectPage;
+import ui.pages.projects.ProjectsPage;
+import ui.pages.teams.MenuTeams.BoardsMenuPage;
 import ui.pages.teams.MenuTeams.MembersMenuPage;
 import ui.pages.teams.TeamsPage;
 import ui.pages.TopMenuPage;
@@ -28,7 +31,11 @@ public class Teams {
     private TeamsPage teamPage;
     private AddTeamPage addNewTeam;
     private MembersMenuPage membersMenuPage;
+    private BoardsMenuPage boardsMenuPage;
+    private AddProjectPage addProjectPage;
+    private ProjectsPage projectsPage;
     public String newMember;
+
     /*********** CREATE TEAM ************/
     @Given("^I go to Create Team page$")
     public void new_Team(){
@@ -88,9 +95,26 @@ public class Teams {
 
     @Given("^I navigate to team page \"([^\"]*)\"$")
     public void navigate_to_teamPage(String nameTeam){
-
+        addNewTeam = mainPage.clickNewTeam();
+        teamPage = addNewTeam.createTeam(nameTeam);
     }
 
+    @And("^I navigate to projects menu in team$")
+    public void navigate_to_boardPage(){
+        boardsMenuPage =  teamPage.clickMenuBoards();
+    }
+
+    @And("^I create a project \"([^\"]*)\" for the team$")
+    public void create_project_team(String nameProject){
+        addProjectPage = boardsMenuPage.clickCreateNewBoard();
+        projectsPage = addProjectPage.createNewProjects(nameProject);
+    }
+
+    @Then("^The project \"([^\"]*)\" is added in the team \"([^\"]*)\"$")
+    public void project_in_team(String nameProject, String nameTeam){
+        assertEquals(nameProject, projectsPage.nameOfProject());
+        assertEquals(nameTeam, projectsPage.nameOfTeamInProject());
+    }
 
 //    /**************** AFTER ********************/
 //    @After(value = "@Teams", order = 999)

@@ -21,6 +21,7 @@ import ui.pages.teams.MenuTeams.SettingsMenuPage;
 public class TeamsPage extends BasePageObject {
     private TopMenuPage topMenuPage;
     private SettingsMenuPage settingsMenuPage;
+    private BoardsMenuPage boardsMenuPage;
 
     @FindBy(xpath = "//h1[@class='u-inline']")
     WebElement titleTeam;
@@ -36,6 +37,7 @@ public class TeamsPage extends BasePageObject {
 
     public TeamsPage(){
         topMenuPage = new TopMenuPage();
+        boardsMenuPage = new BoardsMenuPage();
         waitUntilPageObjectIsLoaded();
     }
 
@@ -59,7 +61,9 @@ public class TeamsPage extends BasePageObject {
     }
 
     public BoardsMenuPage clickMenuBoards(){
-        menuBoards.click();
+        if(!boardsMenuPage.isCreateBoardBtnDisplayed()){
+            menuBoards.click();
+        }
         return new BoardsMenuPage();
     }
 

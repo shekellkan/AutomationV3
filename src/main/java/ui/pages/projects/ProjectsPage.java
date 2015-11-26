@@ -18,8 +18,10 @@ public class ProjectsPage extends BasePageObject {
     private TopMenuPage topMenu;
     private ProjectMenuPage projectMenu;
 
-    @FindBy(xpath = "//span[@class='board-header-btn-text']")
+    @FindBy(xpath = "//a[contains(@class,'js-rename-board')]/span[@class='board-header-btn-text']")
     WebElement nameProject;
+    @FindBy(xpath = "//a[contains(@class,'js-open-org-menu')]/span[@class='board-header-btn-text']")
+    WebElement nameTeam;
     @FindBy(xpath = "//div[contains(@class,'js-add-list')]/form/span")
     WebElement addBoardBtn;
 
@@ -46,6 +48,14 @@ public class ProjectsPage extends BasePageObject {
 
     public CloseProjectPage deleteProject(){
         return projectMenu.closeProject();
+    }
+
+    public String nameOfProject(){
+        return nameProject.getText();
+    }
+
+    public String nameOfTeamInProject(){
+        return nameTeam.getText();
     }
 
     public AddBoardPage clickAddBoardList(){
