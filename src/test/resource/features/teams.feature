@@ -3,8 +3,7 @@ Feature: Teams
   create a team, delete team, edit perfil, add members
 
   Background:
-    Given I navigate to login page of Trello.com
-    And I login in Trello.com as "miguel.terceros@fundacion-jala.org" with password "morfeo3730"
+    Given I login in Trello.com as "miguel.terceros@fundacion-jala.org" with password "morfeo3730"
 
   Scenario Outline: create a new team with description
     Given I go to Create Team page
@@ -30,4 +29,10 @@ Feature: Teams
     Examples:
     |Name Member  |            Email              |
     |Ivan Morales |ivan.morales@fundacion-jala.org|
-    |Diego Olivera|diegoC3730@gmail.com           |
+    |Diego Olivera|diegoD3730@gmail.com           |
+
+  Scenario: add the projects "Project_In_Team" to team "Teams_Projects"
+    Given I navigate to team page "Teams_Projects"
+      And I navigate to projects menu in team
+      And I create a project "Project_In_Team"
+      Then The project "Project_In_Team" is added in the team

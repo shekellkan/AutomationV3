@@ -1,6 +1,7 @@
 package steps;
 
 //import cucumber.api.PendingException;
+import common.CommonMethods;
 import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
@@ -32,7 +33,13 @@ public class Login {
 
     @When("^I login in Trello.com as \"(.*?)\" with password \"(.*?)\"$")
     public void I_login_as_with_password(String userName, String userPassword){
-        mainPage = loginPage.loginSuccessful(userName, userPassword);
+        if(!CommonMethods.isLogIn()){
+            loginPage = page.navigateToLoginPage();
+            mainPage = loginPage.loginSuccessful(userName, userPassword);
+        }
+        else{
+            mainPage = loginPage.loginSuccessful(userName, userPassword);
+        }
     }
 
     @Then("^I should login to Trello.com successfully$")

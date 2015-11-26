@@ -65,8 +65,11 @@ public class MainPage extends BasePageObject{
     }
 
     public boolean isTeamPresent(String nameTeam){
-        //By isTeamDeleted = By.xpath("//div[@class='boards-page-board-section-header']/h3[contains(text(),'"+nameTeam+"')]");
         By isTeamDeleted = By.xpath("//h3[contains(text(),'"+nameTeam+"')]");
         return Utils.waitElementIsRemoved(isTeamDeleted);
+    }
+
+    public boolean isMainPage(){
+        return myBoardsMain.isDisplayed();
     }
 }

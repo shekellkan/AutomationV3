@@ -86,11 +86,16 @@ public class Teams {
         assertEquals(nameMember, newMember);
     }
 
-    /**************** AFTER ********************/
-    @After(value = "@Teams", order = 999)
-    public void afterTeamScenario() {
-        topMenu = new TopMenuPage();
-        topMenu.logout();
-        //DriverManager.getInstance().quitDriver();
+    @Given("^I navigate to team page \"([^\"]*)\"$")
+    public void navigate_to_teamPage(String nameTeam){
+
     }
+
+
+//    /**************** AFTER ********************/
+//    @After(value = "@Teams", order = 999)
+//    public void afterTeamScenario() {
+//        topMenu = new TopMenuPage();
+//        topMenu.logout();
+//    }
 }
