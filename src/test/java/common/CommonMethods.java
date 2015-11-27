@@ -29,12 +29,4 @@ public class CommonMethods {
         loginPage.loginSuccessful("miguel.terceros@fundacion-jala.org", "morfeo3730");
         isLogin = true;
     }
-
-    public static boolean isLogIn(){
-        return isLogin;
-    }
-
-    public static boolean isLogOut(){
-        return isLogout;
-    }
 }

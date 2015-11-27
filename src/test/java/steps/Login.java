@@ -22,18 +22,20 @@ import ui.pages.TopMenuPage;
 public class Login {
     private PageTransporter page = PageTransporter.getInstance();
     private TopMenuPage topMenu;
-    private LoginPage loginPage = new LoginPage();
+    private LoginPage loginPage;// = new LoginPage();
     private LoginPage loginError;
-    private MainPage mainPage;
+    private MainPage mainPage = new MainPage();
     /********* LOGIN SUCCESSFULL ****************/
     @Given("^I navigate to login page of Trello.com$")
     public void navigateLoginPage(){
-        loginPage = page.navigateToLoginPage();
+        if(!mainPage.isMyBoardsMainDisplayed()){
+            loginPage = page.navigateToLoginPage();
+        }
     }
 
     @When("^I login in Trello.com as \"(.*?)\" with password \"(.*?)\"$")
     public void I_login_as_with_password(String userName, String userPassword){
-        if(!CommonMethods.isLogIn()){
+        if(!mainPage.isMyBoardsMainDisplayed()){
             loginPage = page.navigateToLoginPage();
             mainPage = loginPage.loginSuccessful(userName, userPassword);
         }

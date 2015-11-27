@@ -19,6 +19,7 @@ public class CloseProjectPage extends BasePageObject {
     public CloseProjectPage(){
         topMenuPage = new TopMenuPage();
         waitUntilPageObjectIsLoaded();
+        gotoMainPage();
     }
 
     @Override
@@ -33,4 +34,6 @@ public class CloseProjectPage extends BasePageObject {
     public boolean isCloseProject(){
         return titleCloseProject.isDisplayed();
     }
+
+
 }

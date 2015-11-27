@@ -1,41 +1,37 @@
 @Teams
 Feature: Teams
-  create a team, delete team, edit perfil, add members
+  create a team, edit perfil, add members and invited members
 
   Background:
     Given I navigate to login page of Trello.com
       And I login in Trello.com as "miguel.terceros@fundacion-jala.org" with password "morfeo3730"
 
+  Scenario Outline: create a new team with description
+    Given I go to Create Team page
+    When I have to create a new team "<Name Team>" with description "<Description>"
+      Then The new team "<Name Team>" is created.
 
-#  Scenario Outline: create a new team with description
-#    Given I go to Create Team page
-#    And I have to create a new team "<Name Team>" with description "<Description>"
-#    Then The new team "<Name Team>" is created.
-#
-#    Examples:
-#    |     Name Team       |         Description               |
-#    |New_Team             |                                   |
-#    |Team_Description     |This is a new Team with description|
+    Examples:
+    |     Name Team       |         Description               |
+    |New_Team             |                                   |
+    |Team_Description     |This is a new Team with description|
 
-  Scenario: delete a team existent "Teams_Deleted"
-    Given I create a team "Teams_Deleted" with description "This teams is for deleted"
-      And I navigate to setting menu
-      And I deleted the team
-      Then The team "Teams_Deleted" is deleted
-#
-#  Scenario Outline: add members existent in a team
-#    Given I add new members in team "Team_Members" with description "added members in this team"
-#      And I navigate until to menu Members
-#      And I add to member "<Name Member>" with the email "<Email>"
-#      Then The  member "<Name Member>" is added in the team
-#
-#    Examples:
-#    |Name Member  |            Email              |
-#    |Ivan Morales |ivan.morales@fundacion-jala.org|
-#    |Diego Olivera|diegoD3730@gmail.com           |
-#
-#  Scenario: add the projects "Project_In_Team" to team "Teams_Projects"
-#    Given I navigate to team page "Teams_Projects"
-#      And I navigate to projects menu in team
-#      And I create a project "Project_In_Team" for the team
-#      Then The project "Project_In_Team" is added in the team "Teams_Projects"
+#  Scenario: delete a team existent "Teams_Deleted"
+#    Given I create a team "Teams_Deleted" with description "This teams is for deleted"
+#      And I navigate to setting menu
+#      And I deleted the team
+#      Then The team "Teams_Deleted" is deleted
+
+  Scenario: add members existent in a team
+    Given I go to create a team "Team_Members" with description "added members in this team"
+      And I navigate until to menu Members
+    When I add to member "Ivan Morales" with the email "ivan.morales@fundacion-jala.org"
+      And I invite a "Diego Olivera" with the email "diegoI3730@gmail.com"
+     Then The  member "Ivan Morales" is added in the team
+#     And The member invited "Diego Olivera" is added in the team
+
+  Scenario: add the projects "Project_In_Team" to team "Teams_Projects"
+    Given I navigate to team page "Teams_Projects"
+      And I navigate to projects menu in team
+    When I create a project "Project_In_Team" for the team
+      Then The project "Project_In_Team" is added in the team "Teams_Projects"

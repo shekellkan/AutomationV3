@@ -17,10 +17,10 @@ public class MembersMenuPage extends BasePageObject {
     WebElement addMembersBtn;
     @FindBy(xpath = "//div[@class='search-with-spinner']/input")
     WebElement emailField;
-    @FindBy(xpath = "//div[contains(@class,'js-search-results')]/h4[contains(text(), 'Select to add')]")
-    WebElement selectAddForm;
+
     @FindBy(xpath = "//input[contains(@class,'js-full-name')]")
     WebElement fullNameInvited;
+
     @FindBy(xpath = "//a[contains(@class,'icon-close' )]")
     WebElement iconClose;
     @FindBy(xpath = "//div[contains(@class,'js-search-results')]/ul/div/li/a")
@@ -30,7 +30,7 @@ public class MembersMenuPage extends BasePageObject {
     @FindBy(xpath = "//form[contains(@class,'js-email-data')]/input[contains(@class,'js-send-email-invite') and contains(@value,'Send')]")
     WebElement sendInvitedBtn;
 
-    WebElement memberInTeam = null;
+    By memberInTeam;
 
     public MembersMenuPage(){
         waitUntilPageObjectIsLoaded();
@@ -51,6 +51,13 @@ public class MembersMenuPage extends BasePageObject {
         emailField.clear();
         emailField.sendKeys(email);
         wait.until(ExpectedConditions.visibilityOf(membersOption));
+        return this;
+    }
+
+    public MembersMenuPage setEmailInvite(String email){
+        emailField.clear();
+        emailField.sendKeys(email);
+        wait.until(ExpectedConditions.visibilityOf(fullNameForm));
         return this;
     }
 
@@ -77,21 +84,28 @@ public class MembersMenuPage extends BasePageObject {
     }
 
     public String isNewMemberTeamDisplayed(String fullName){
-        memberInTeam = driver.findElement(By.xpath("//span[contains(@class, 'full-name') and contains(text(),'"+fullName+"')]"));
-        return memberInTeam.getText();
+        return driver.findElement(By.xpath(buildPathMemberTeam(fullName))).getText();
     }
 
-    public MembersMenuPage addMemberInTeam(String nameMember, String email){
+    public String buildPathMemberTeam(String nameMember){
+        return "//span[contains(@class, 'full-name') and contains(text(),'"+ nameMember +"')]";
+    }
+
+    public MembersMenuPage invitedMemberInTeam(String nameMember, String email){
+        clickAddMembersBtn();
+        setEmailInvite(email);
+        setNameInvite(nameMember);
+        clickSendInvitedMember();
+        waitUntilPageObjectIsLoaded();
+        return this;
+    }
+
+    public MembersMenuPage addMemberInTeam(String email){
         clickAddMembersBtn();
         setEmailMembers(email);
-        if(selectAddForm.isDisplayed() && selectAddForm.isEnabled()){
-            clickMemberOptions();
-            clickIconClose();
-        }
-        else if (fullNameForm.isDisplayed() && fullNameForm.isEnabled()){
-            setNameInvite(nameMember);
-            clickSendInvitedMember();
-        }
+        clickMemberOptions();
+        clickIconClose();
+        waitUntilPageObjectIsLoaded();
         return this;
     }
 }

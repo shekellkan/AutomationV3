@@ -9,6 +9,7 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
+import cucumber.api.java.en.When;
 import ui.pages.MainPage;
 import ui.pages.projects.AddProjectPage;
 import ui.pages.projects.ProjectsPage;
@@ -37,6 +38,7 @@ public class Teams {
     private ProjectsPage projectsPage;
     private SettingsMenuPage settingsMenuPage;
     public String newMember;
+    public String inviteMember;
 
     /*********** CREATE TEAM ************/
     @Given("^I go to Create Team page$")
@@ -44,7 +46,7 @@ public class Teams {
         addNewTeam = mainPage.clickNewTeam();
     }
 
-    @And("^I have to create a new team \"([^\"]*)\" with description \"([^\"]*)\"$")
+    @When("^I have to create a new team \"([^\"]*)\" with description \"([^\"]*)\"$")
     public void create_Teams_Description(String nameTeam, String description){
         teamPage = addNewTeam.createNewTeams(nameTeam, description);
     }
@@ -78,7 +80,7 @@ public class Teams {
     }
 
     /**************** ADD MEMBERS ****************/
-    @Given("^I add new members in team \"([^\"]*)\" with description \"([^\"]*)\"$")
+    @Given("^I go to create a team \"([^\"]*)\" with description \"([^\"]*)\"$")
     public void new_members_team(String nameTeam, String description){
         addNewTeam = mainPage.clickNewTeam();
         teamPage = addNewTeam.createNewTeams(nameTeam, description);
@@ -89,17 +91,29 @@ public class Teams {
         membersMenuPage = teamPage.clickMenuMembers();
     }
 
-    @And("^I add to member \"([^\"]*)\" with the email \"([^\"]*)\"$")
+    @When("^I add to member \"([^\"]*)\" with the email \"([^\"]*)\"$")
     public void add_new_member(String nameMember, String email){
-        membersMenuPage.addMemberInTeam(nameMember, email);
-        newMember = membersMenuPage.isNewMemberTeamDisplayed(nameMember);
+        membersMenuPage.addMemberInTeam(email);
+    }
+
+    @And("^I invite a \"([^\"]*)\" with the email \"([^\"]*)\"$")
+    public void invite_to_member(String nameInvite, String email){
+        membersMenuPage.invitedMemberInTeam(nameInvite, email);
     }
 
     @Then("^The  member \"([^\"]*)\" is added in the team$")
     public void new_member_is_added(String nameMember){
+        newMember = membersMenuPage.isNewMemberTeamDisplayed(nameMember);
         assertEquals(nameMember, newMember);
     }
 
+    @And("^The member invited \"([^\"]*)\" is added in the team$")
+    public void invited_member_is_added(String nameMember){
+        inviteMember = membersMenuPage.isNewMemberTeamDisplayed(nameMember);
+        assertEquals(nameMember, inviteMember);
+    }
+
+    /************* CREATE PROJECT INTO TEAM **************/
     @Given("^I navigate to team page \"([^\"]*)\"$")
     public void navigate_to_teamPage(String nameTeam){
         addNewTeam = mainPage.clickNewTeam();
@@ -111,7 +125,7 @@ public class Teams {
         boardsMenuPage =  teamPage.clickMenuBoards();
     }
 
-    @And("^I create a project \"([^\"]*)\" for the team$")
+    @When("^I create a project \"([^\"]*)\" for the team$")
     public void create_project_team(String nameProject){
         addProjectPage = boardsMenuPage.clickCreateNewBoard();
         projectsPage = addProjectPage.createNewProjects(nameProject);
@@ -123,10 +137,9 @@ public class Teams {
         assertEquals(nameTeam, projectsPage.nameOfTeamInProject());
     }
 
-//    /**************** AFTER ********************/
-//    @After(value = "@Teams", order = 999)
-//    public void afterTeamScenario() {
-//        topMenu = new TopMenuPage();
-//        topMenu.logout();
-//    }
+    /**************** AFTER ********************/
+    @After(value = "@Teams", order = 999)
+    public void afterTeamScenario() {
+        teamPage.deleteTeam();
+    }
 }

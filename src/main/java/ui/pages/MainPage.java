@@ -74,8 +74,4 @@ public class MainPage extends BasePageObject{
         }
         return res;
     }
-
-    public boolean isMainPage(){
-        return myBoardsMain.isDisplayed();
-    }
 }

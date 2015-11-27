@@ -41,13 +41,13 @@ public class RunCukesTest extends AbstractTestNGCucumberTests {
         }
     }
 
-    @Before
-    public void beforeScenario(Feature feature) {
-        System.out.println("FEATURE BEFORE: "+feature.getName());
-    }
-
-    @After
-    public void afterScenario(Feature feature){
-        System.out.println("FEATURE AFTER: " + feature.getName());
-    }
+//    @Before
+//    public void beforeScenario(Feature feature) {
+//
+//    }
+//
+//    @After
+//    public void afterScenario(Feature feature){
+//
+//    }
 }
