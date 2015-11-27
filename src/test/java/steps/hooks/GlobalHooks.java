@@ -2,8 +2,8 @@ package steps.hooks;
 
 
 import cucumber.api.Scenario;
+import cucumber.api.java.After;
 import framework.DriverManager;
-import org.junit.After;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 

@@ -24,7 +24,7 @@ public class Login {
     private TopMenuPage topMenu;
     private LoginPage loginPage = new LoginPage();
     private LoginPage loginError;
-    private MainPage mainPage = null;
+    private MainPage mainPage;
     /********* LOGIN SUCCESSFULL ****************/
     @Given("^I navigate to login page of Trello.com$")
     public void navigateLoginPage(){
@@ -35,9 +35,6 @@ public class Login {
     public void I_login_as_with_password(String userName, String userPassword){
         if(!CommonMethods.isLogIn()){
             loginPage = page.navigateToLoginPage();
-            mainPage = loginPage.loginSuccessful(userName, userPassword);
-        }
-        else{
             mainPage = loginPage.loginSuccessful(userName, userPassword);
         }
     }

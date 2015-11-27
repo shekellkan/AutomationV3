@@ -3,7 +3,9 @@ Feature: Teams
   create a team, delete team, edit perfil, add members
 
   Background:
-    Given I login in Trello.com as "miguel.terceros@fundacion-jala.org" with password "morfeo3730"
+    Given I navigate to login page of Trello.com
+      And I login in Trello.com as "miguel.terceros@fundacion-jala.org" with password "morfeo3730"
+
 
 #  Scenario Outline: create a new team with description
 #    Given I go to Create Team page
@@ -14,11 +16,12 @@ Feature: Teams
 #    |     Name Team       |         Description               |
 #    |New_Team             |                                   |
 #    |Team_Description     |This is a new Team with description|
-#
-#  Scenario: delete a team existent "Teams_Deleted"
-#    Given I create a team "Teams_Deleted" with description "This teams is for deleted"
-#      And I deleted the team
-#      Then The team "Teams_Deleted" is deleted
+
+  Scenario: delete a team existent "Teams_Deleted"
+    Given I create a team "Teams_Deleted" with description "This teams is for deleted"
+      And I navigate to setting menu
+      And I deleted the team
+      Then The team "Teams_Deleted" is deleted
 #
 #  Scenario Outline: add members existent in a team
 #    Given I add new members in team "Team_Members" with description "added members in this team"
@@ -30,9 +33,9 @@ Feature: Teams
 #    |Name Member  |            Email              |
 #    |Ivan Morales |ivan.morales@fundacion-jala.org|
 #    |Diego Olivera|diegoD3730@gmail.com           |
-
-  Scenario: add the projects "Project_In_Team" to team "Teams_Projects"
-    Given I navigate to team page "Teams_Projects"
-      And I navigate to projects menu in team
-      And I create a project "Project_In_Team" for the team
-      Then The project "Project_In_Team" is added in the team "Teams_Projects"
+#
+#  Scenario: add the projects "Project_In_Team" to team "Teams_Projects"
+#    Given I navigate to team page "Teams_Projects"
+#      And I navigate to projects menu in team
+#      And I create a project "Project_In_Team" for the team
+#      Then The project "Project_In_Team" is added in the team "Teams_Projects"

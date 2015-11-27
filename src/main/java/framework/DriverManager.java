@@ -1,5 +1,6 @@
 package framework;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -52,7 +53,7 @@ public class DriverManager {
         }
         catch (Exception e)
         {
-            //Logger.getLogger(getClass()).error("Unable to quit the webdriver" , e);
+            Logger.getLogger(getClass()).error("Unable to quit the webdriver" , e);
         }
         driver = null;
     }

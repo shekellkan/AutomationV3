@@ -2,6 +2,7 @@ package ui.pages;
 
 import common.Utils;
 import org.apache.log4j.chainsaw.Main;
+import org.jboss.netty.channel.ExceptionEvent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,7 +22,6 @@ import ui.pages.teams.AddTeamPage;
 
 
 public class MainPage extends BasePageObject{
-    PageTransporter page = PageTransporter.getInstance();
     TopMenuPage topMenuPage;
     //declare WebElements
     @FindBy(xpath = "//h3[contains(text(), 'My Boards')]")
@@ -65,8 +65,14 @@ public class MainPage extends BasePageObject{
     }
 
     public boolean isTeamPresent(String nameTeam){
-        By isTeamDeleted = By.xpath("//h3[contains(text(),'"+nameTeam+"')]");
-        return Utils.waitElementIsRemoved(isTeamDeleted);
+        By isTeamDeleted = null;
+        boolean res = false;
+        try{
+            isTeamDeleted = By.xpath("//h3[contains(text(),'"+nameTeam+"')]");
+        }catch (Exception e){
+            res = Utils.isElementPresentV2(isTeamDeleted);
+        }
+        return res;
     }
 
     public boolean isMainPage(){

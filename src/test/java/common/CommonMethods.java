@@ -15,8 +15,8 @@ public class CommonMethods {
     private static LoginPage loginPage;
     private static MainPage mainPage;
 
-    public static boolean isLogin;
-    public static boolean isLogout;
+    public static boolean isLogin = false;
+    public static boolean isLogout = false;
 
     public static void logOut() {
         topMenuPage = new TopMenuPage();

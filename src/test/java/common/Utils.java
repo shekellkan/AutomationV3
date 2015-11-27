@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.NoSuchElementException;
-import java.util.concurrent.TimeUnit;
+import org.apache.log4j.Logger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,32 +19,48 @@ import java.util.concurrent.TimeUnit;
 public class Utils {
     public static WebElement memberFound;
     public static WebDriver driver = DriverManager.getInstance().getWebDriver();
+    private static Logger log = Logger.getLogger("RunCukesTest");
 
     public static boolean isElementPresent(By byElement) {
-        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
         try {
+            System.out.println("++++++++++++++++++++++++++++ aqui entre encontre 1 ++++++++++++++++");
             driver.findElement(byElement);
+            System.out.println("++++++++++++++++++++++++++++ aqui entre encontre 2 ++++++++++++++++");
             return true;
         } catch (NoSuchElementException e) {
+            System.out.println("############################ aqui entre no encontre ^######333");
             return false;
-        }
-        finally
-        {
-            driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         }
     }
 
-    public static Boolean waitElementIsRemoved(By element){
-        Boolean elementFind;
-        do{
-            elementFind = isElementPresent(element);
-        }while (elementFind == Boolean.TRUE);       //todo update solve bucle infinito
-        return elementFind;
+    public static boolean isElementPresentV2(By byElement) {
+        try{
+            return driver.findElement(byElement)!= null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static Boolean waitElementIsRemoved(By isTeamDeleted){
+        boolean result = true;
+        int count = 0;
+        int MaxCount = 10;
+        try {
+            while (result && count <= MaxCount){
+                Thread.sleep(50);
+                System.out.println("************************** aqui entre ******************");
+                result = isElementPresent(isTeamDeleted);
+                System.out.println("////////////////////////// aqui entre ////////////////" + result);
+                count++;
+            }
+        } catch (InterruptedException e){
+            log.error("Exception Found Element is not Present");
+        }
+        return result;
     }
 
     public static WebElement findMember(By member){
         memberFound = driver.findElement(member);
-        System.out.println("Aqui esta:" + memberFound.getText());
         return memberFound;
     }
 

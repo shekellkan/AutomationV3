@@ -14,6 +14,7 @@ import ui.pages.projects.AddProjectPage;
 import ui.pages.projects.ProjectsPage;
 import ui.pages.teams.MenuTeams.BoardsMenuPage;
 import ui.pages.teams.MenuTeams.MembersMenuPage;
+import ui.pages.teams.MenuTeams.SettingsMenuPage;
 import ui.pages.teams.TeamsPage;
 import ui.pages.TopMenuPage;
 import ui.pages.teams.AddTeamPage;
@@ -34,6 +35,7 @@ public class Teams {
     private BoardsMenuPage boardsMenuPage;
     private AddProjectPage addProjectPage;
     private ProjectsPage projectsPage;
+    private SettingsMenuPage settingsMenuPage;
     public String newMember;
 
     /*********** CREATE TEAM ************/
@@ -60,9 +62,14 @@ public class Teams {
         teamPage = addNewTeam.createNewTeams(nameTeam, description);
     }
 
+    @And("^I navigate to setting menu$")
+    public void navigate_setting_menu(){
+        settingsMenuPage = teamPage.clickMenuSetting();
+    }
+
     @And("^I deleted the team$")
     public void deleted_Teams(){
-        mainPage = teamPage.deleteTeam();
+        mainPage = settingsMenuPage.deleteTeam();
     }
 
     @Then("^The team \"([^\"]*)\" is deleted$")
