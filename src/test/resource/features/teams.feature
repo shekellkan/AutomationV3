@@ -16,19 +16,12 @@ Feature: Teams
     |New_Team             |                                   |
     |Team_Description     |This is a new Team with description|
 
-#  Scenario: delete a team existent "Teams_Deleted"
-#    Given I create a team "Teams_Deleted" with description "This teams is for deleted"
-#      And I navigate to setting menu
-#      And I deleted the team
-#      Then The team "Teams_Deleted" is deleted
-
   Scenario: add members existent in a team
     Given I go to create a team "Team_Members" with description "added members in this team"
       And I navigate until to menu Members
     When I add to member "Ivan Morales" with the email "ivan.morales@fundacion-jala.org"
-      And I invite a "Diego Olivera" with the email "diegoI3730@gmail.com"
+      And I invite a "Diego Olivera" with the email "diegoBI3730@gmail.com"
      Then The  member "Ivan Morales" is added in the team
-#     And The member invited "Diego Olivera" is added in the team
 
   Scenario: add the projects "Project_In_Team" to team "Teams_Projects"
     Given I navigate to team page "Teams_Projects"

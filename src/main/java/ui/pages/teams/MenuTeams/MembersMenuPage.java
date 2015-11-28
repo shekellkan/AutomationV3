@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ui.BasePageObject;
+import ui.pages.projects.ProjectMenuPage;
 
 /**
  * Created by MiguelTerceros on 11/24/2015.
@@ -64,7 +65,6 @@ public class MembersMenuPage extends BasePageObject {
     public MembersMenuPage setNameInvite(String fullName){
         fullNameInvited.clear();
         fullNameInvited.sendKeys(fullName);
-        wait.until(ExpectedConditions.visibilityOf(fullNameForm));
         return this;
     }
 
@@ -107,5 +107,19 @@ public class MembersMenuPage extends BasePageObject {
         clickIconClose();
         waitUntilPageObjectIsLoaded();
         return this;
+    }
+
+    public ProjectMenuPage addMemberProject(String email){
+        setEmailMembers(email);
+        clickMemberOptions();
+        //clickIconClose();
+        return new ProjectMenuPage();
+    }
+
+    public ProjectMenuPage inviteMemberProject(String nameIvited, String email){
+        setEmailInvite(email);
+        setNameInvite(nameIvited);
+        clickSendInvitedMember();
+        return new ProjectMenuPage();
     }
 }

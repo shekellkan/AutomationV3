@@ -9,10 +9,9 @@ import cucumber.api.java.en.When;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import ui.pages.*;
-import ui.pages.projects.AddProjectPage;
-import ui.pages.projects.CloseProjectPage;
-import ui.pages.projects.ProjectsPage;
+import ui.pages.projects.*;
 import ui.pages.teams.AddTeamPage;
+import ui.pages.teams.MenuTeams.MembersMenuPage;
 import ui.pages.teams.TeamsPage;
 
 /**
@@ -24,6 +23,9 @@ public class Projects {
     private TeamsPage teamPage;
     private TopMenuPage topMenuPage;
     private ProjectsPage projectPage;
+    private ProjectMenuPage projectMenuPage;// = new ProjectMenuPage();
+    private InfoMemberPage infoMemberPage;
+    private MembersMenuPage membersMenuPage;
     private CloseProjectPage closeProject;
     private AddProjectPage addProject;
     /********** CREATE NEW PROJECT **********/
@@ -47,8 +49,6 @@ public class Projects {
     @Given("^I go to create Project page  with a team$")
     public void createProjectWithTeam(){
         addTeam = mainPage.clickNewTeam();
-//        teamPage = addTeam.createTeam(nameTeam);
-//        mainPage = teamPage.goToMainPage();
     }
 
     @Then("^I navigate to main page$")
@@ -97,17 +97,28 @@ public class Projects {
 
     @And("^I navigate to menu add member$")
     public void iNavigateToMenuAddMember(){
-
+        projectMenuPage = new ProjectMenuPage();
+        membersMenuPage = projectMenuPage.clickAddMember();
     }
 
-    @And("^I added a \"([^\"]*)\" with the email \"([^\"]*)\"$")
+    @When("^I added a \"([^\"]*)\" with the email \"([^\"]*)\"$")
     public void iAddedAWithTheEmail(String nameMember, String email){
+        projectMenuPage = membersMenuPage.addMemberProject(email);
+    }
 
+    @And("^I invited a \"([^\"]*)\" with the email \"([^\"]*)\"$")
+    public void invited_member_at_project(String nameMember, String email){
+        projectMenuPage = membersMenuPage.inviteMemberProject(nameMember, email);
+    }
+
+    @When("^I navigate to profile of the new member \"([^\"]*)\"$")
+    public void navigate_to_profile(String nameInfoProfile){
+        infoMemberPage = projectMenuPage.clickInfoMember(nameInfoProfile);
     }
 
     @Then("^The member \"([^\"]*)\" is added to project$")
     public void theMemberIsAddedToProject(String nameInvited){
-
+        assertEquals(nameInvited, infoMemberPage.getTextTitleProfile());
     }
 
     /**************** AFTER ********************/
